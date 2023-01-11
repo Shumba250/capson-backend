@@ -1,10 +1,11 @@
 "use strict";
 
-require("dotenv/config");
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _dotenv = _interopRequireDefault(require("dotenv"));
 var _express = _interopRequireDefault(require("express"));
 var _mongoose = _interopRequireDefault(require("mongoose"));
 var _router = _interopRequireDefault(require("./routes/router"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+_dotenv["default"].config();
 var app = (0, _express["default"])();
 _mongoose["default"].set("strictQuery", true);
 _mongoose["default"].connect(process.env.DB, {
@@ -19,4 +20,4 @@ _mongoose["default"].connect(process.env.DB, {
   return console.log(error);
 });
 app.use(_express["default"].json());
-app.use("/blogs", _router["default"]);
+app.use("/blogss", _router["default"]);
