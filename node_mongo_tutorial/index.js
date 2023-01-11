@@ -1,9 +1,10 @@
-const env = require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const router = require("./routes/router");
+import dotenv from "dotenv";
+import express from "express";
+import mongoose from "mongoose";
+import router from "./routes/router.js";
 
 const app = express();
+dotenv.config();
 
 mongoose.set("strictQuery", true);
 mongoose
@@ -20,4 +21,4 @@ mongoose
 	.catch((error) => console.log(error));
 app.use(express.json());
 
-app.use("/blogss", router);
+app.use("/blogs", router);
