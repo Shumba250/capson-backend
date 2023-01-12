@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import router from "./server/routes/router.js";
 import messagerouter from "./server/routes/contactMessageRoutes.js";
+import signupRouter from "./server/routes/signupRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -24,3 +25,4 @@ app.use(express.json());
 
 app.use("/blogss", router);
 app.use("/contactMessages", messagerouter);
+app.use("/signups", signupRouter);
