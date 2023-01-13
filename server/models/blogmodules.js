@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { stringify } from "querystring";
 
 const Schema = mongoose.Schema;
 const blogSchema = new Schema(
@@ -27,4 +28,28 @@ const blogSchema = new Schema(
 	{ timestamps: true }
 );
 
-export default mongoose.model("Article", blogSchema);
+const commentSchema = new Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+		},
+		email: {
+			type: String,
+			required: true,
+		},
+		comment: {
+			type: String,
+			required: true,
+		},
+		articleId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Article",
+		},
+	},
+	{ timestamps: true }
+);
+const Article = mongoose.model("Article", blogSchema);
+const Comment = mongoose.model("Comment", commentSchema);
+
+export { Article, Comment };

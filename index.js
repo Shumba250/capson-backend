@@ -22,5 +22,9 @@ mongoose
 	.catch((error) => console.log(error));
 app.use(express.json());
 
-app.use("/blogss", router);
+app.use("/blogs", router);
 app.use("/contactMessages", messagerouter);
+
+app.all("*", (req, res) => {
+	res.status(404).json({ message: "page not found" });
+});
