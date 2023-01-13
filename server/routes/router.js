@@ -1,4 +1,6 @@
 import express from "express";
+import { createArticle } from "../controller/blogController.js";
+import { createBlogValidations } from "../middleWares/blogValidation.js";
 const router = express.Router();
 import Article from "../models/blogmodules.js";
 
@@ -20,19 +22,7 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
-router.post("/", async (req, res) => {
-	try {
-		const blog = new Article({
-			title: req.body.title,
-			description: req.body.description,
-			image: req.body.image,
-		});
-		const blogs = await blog.save();
-		res.status(200).json(blogs);
-	} catch (error) {
-		res.send({ error: "Article doesn't exist!" });
-	}
-});
+router.post("/", createBlogValidations, createArticle);
 
 router.patch("/:id", async (req, res) => {
 	try {
