@@ -23,6 +23,6 @@ mongoose
 	.catch((error) => console.log(error));
 app.use(express.json());
 
-app.use("/blogss", router);
+app.use("/blogs", router);
 app.use("/contactMessages", messagerouter);
 app.use("/signups", signupRouter);

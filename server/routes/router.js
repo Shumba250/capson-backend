@@ -1,55 +1,30 @@
 import express from "express";
-import { createArticle } from "../controller/blogController.js";
+import {
+	articleCount,
+	createArticle,
+	createComment,
+	deleteSingleArticle,
+	retrieveAllArticles,
+	retrieveSingleArticle,
+	updateSingleArticle,
+} from "../controller/blogController.js";
 import { createBlogValidations } from "../middleWares/blogValidation.js";
+import { createCommentValidation } from "../middleWares/commentValidation.js";
 const router = express.Router();
-import Article from "../models/blogmodules.js";
+import { Article, Comment } from "../models/blogmodules.js";
 
-router.get("/", async (req, res) => {
-	try {
-		const blog = await Article.find();
-		res.status(200).json(blog);
-	} catch (error) {
-		res.send({ error: "Article doesn't exist!" });
-	}
-});
+router.get("/", retrieveAllArticles);
 
-router.get("/:id", async (req, res) => {
-	try {
-		const blog = await Article.findOne({ _id: req.params.id });
-		res.status(200).json(blog);
-	} catch (error) {
-		res.send({ error: "Article does not exist" });
-	}
-});
+router.get("/blogCount", articleCount);
+
+router.get("/:id", retrieveSingleArticle);
 
 router.post("/", createBlogValidations, createArticle);
 
-router.patch("/:id", async (req, res) => {
-	try {
-		const blog = await Article.findOne({ _id: req.params.id });
-		if (req.body.title) {
-			blog.title = req.body.title;
-		}
+router.patch("/:id", createBlogValidations, updateSingleArticle);
 
-		if (req.body.description) {
-			blog.description = req.body.description;
-		}
-		if (req.body.image) {
-			blog.image = req.body.image;
-		}
-		const blogs = await blog.save();
-		res.status(200).json(blogs);
-	} catch {
-		res.send({ error: "Article doesn't exist!" });
-	}
-});
+router.delete("/:id", deleteSingleArticle);
 
-router.delete("/:id", async (req, res) => {
-	try {
-		const blog = await Article.deleteOne({ _id: req.params.id });
-		res.status(200).json(blog);
-	} catch {
-		res.send({ error: "Article doesn't exist!" });
-	}
-});
+router.post("/:id/comments", createCommentValidation, createComment);
+
 export default router;

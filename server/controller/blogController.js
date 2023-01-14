@@ -1,4 +1,4 @@
-import Article from "../models/blogmodules.js";
+import { Article } from "../models/blogmodules.js";
 
 const createArticle = async (req, res) => {
 	try {
@@ -8,10 +8,118 @@ const createArticle = async (req, res) => {
 			image: req.body.image,
 		});
 		const blogs = await blog.save();
-		res.status(200).json(blogs);
+		res.status(200).json({
+			status: "success",
+			message: "blog post was a success",
+			data: { blog: blogs },
+		});
 	} catch (error) {
-		res.send({ error: "Article doesn't exist!" });
+		res.status(404).json({ status: "error", message: "blog not posted" });
 	}
 };
 
-export { createArticle };
+const retrieveAllArticles = async (req, res) => {
+	try {
+		const blog = await Article.find();
+		res.status(200).json({
+			status: "success",
+			message: "blogs retrieved successfully",
+			data: { blog: blog },
+		});
+	} catch (error) {
+		res.status(404).json({ status: "error", message: "blogs not found" });
+	}
+};
+
+const articleCount = async (req, res) => {
+	try {
+		const blogs = await Article.find().exec();
+		res.status(200).json({
+			status: "success",
+			message: "blogs retrieved successfully",
+			data: { blogs: blogs.length },
+		});
+	} catch (error) {
+		res.status(404).json({ status: "error", message: "blogs not found" });
+	}
+};
+
+const retrieveSingleArticle = async (req, res) => {
+	try {
+		const blog = await Article.findOne({ _id: req.body.id });
+		res.status(200).json({
+			status: "success",
+			message: "blog retrieved successfully",
+			data: { blog: blog },
+		});
+	} catch (error) {
+		res.status(404).json({ status: "error", message: "blog not found" });
+	}
+};
+
+const updateSingleArticle = async (req, res) => {
+	try {
+		const blog = await Article.findOne({ _id: req.params.id });
+		if (req.body.title) {
+			blog.title = req.body.title;
+		}
+
+		if (req.body.description) {
+			blog.description = req.body.description;
+		}
+		if (req.body.image) {
+			blog.image = req.body.image;
+		}
+		const blogs = await blog.save();
+		res.status(200).json({
+			status: "success",
+			message: "blog updated",
+			data: { blog: blogs },
+		});
+	} catch {
+		res
+			.status(404)
+			.json({ status: "error", message: "failed to update the blog" });
+	}
+};
+
+const deleteSingleArticle = async (req, res) => {
+	try {
+		const blog = await Article.deleteOne({ _id: req.params.id });
+		res.status(200).json({
+			status: "success",
+			message: "blog deleted",
+			data: { blog: blog },
+		});
+	} catch {
+		res.status(404).json({ status: "error", message: "blog not deleted" });
+	}
+};
+
+const createComment = async (req, res) => {
+	try {
+		const { name, email, comment } = req.body;
+		const comments = new Comment({
+			name,
+			email,
+			comment,
+		});
+		const commentSave = await comments.save();
+		await Article.findByIdAndUpdate(req.params.id, {
+			$push: { comments: commentSave },
+		});
+		res.status(200).json(commentSave);
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
+export {
+	createArticle,
+	retrieveSingleArticle,
+	retrieveAllArticles,
+	updateSingleArticle,
+	deleteSingleArticle,
+	createComment,
+	articleCount,
+};
