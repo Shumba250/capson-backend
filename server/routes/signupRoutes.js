@@ -8,19 +8,27 @@ import {
 	userCount,
 } from "../controller/signupController.js";
 import { createSignupValidation } from "../middleWares/signupValidation.js";
+import adminAccess from "../middleWares/adminAccess.js";
+import { authorized } from "../middleWares/authentication.js";
+
 const signupRouter = express.Router();
-import signup from "../models/signupModule.js";
 
-signupRouter.get("/", retrieveAllUses);
+signupRouter.get("/", authorized, adminAccess, retrieveAllUses);
 
-signupRouter.get("/signupCount", userCount);
+signupRouter.get("/signupCount", authorized, adminAccess, userCount);
 
-signupRouter.get("/:id", retireveSingleUser);
+signupRouter.get("/:id", authorized, adminAccess, retireveSingleUser);
 
 signupRouter.post("/", createSignupValidation, createUser);
 
-signupRouter.patch("/:id", createSignupValidation, updateUser);
+signupRouter.patch(
+	"/:id",
+	createSignupValidation,
+	authorized,
+	adminAccess,
+	updateUser
+);
 
-signupRouter.delete("/:id", deleteUser);
+signupRouter.delete("/:id", authorized, adminAccess, deleteUser);
 
 export default signupRouter;

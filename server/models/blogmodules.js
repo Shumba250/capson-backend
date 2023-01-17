@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// Articles schema
 const Schema = mongoose.Schema;
 const blogSchema = new Schema(
 	{
@@ -26,7 +26,7 @@ const blogSchema = new Schema(
 	},
 	{ timestamps: true }
 );
-
+// comment schema
 const commentSchema = new Schema(
 	{
 		name: {

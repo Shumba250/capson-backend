@@ -9,15 +9,17 @@ import {
 } from "../controller/contactMessageController.js";
 const messagerouter = express.Router();
 import contactMessages from "../models/contactMessageModule.js";
+import { authorized } from "../middleWares/authentication.js";
+import adminAccess from "../middleWares/adminAccess.js";
 
-messagerouter.get("/", retrieveAllMessages);
+messagerouter.get("/", authorized, adminAccess, retrieveAllMessages);
 
-messagerouter.get("/:id", retrieveSingleMessage);
+messagerouter.get("/:id", authorized, adminAccess, retrieveSingleMessage);
 
-messagerouter.get("/messageCount", messageCount);
+messagerouter.get("/messageCount", authorized, adminAccess, messageCount);
 
 messagerouter.post("/", createContactMessageValication, createMessage);
 
-messagerouter.delete("/:id", deleteMessage);
+messagerouter.delete("/:id", authorized, adminAccess, deleteMessage);
 
 export default messagerouter;

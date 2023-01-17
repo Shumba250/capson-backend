@@ -1,12 +1,14 @@
 import signup from "../models/signupModule.js";
+import bcrypt from "bcrypt";
 
+//retrieve all users
 const retrieveAllUses = async (req, res) => {
 	try {
-		const signups = await signup.find();
+		const signups = await signup.find().exec();
 		res.status(200).json({
 			status: "success",
 			message: "all users retieved",
-			data: { users: signups },
+			data: { userCount: signups.length, users: signups },
 		});
 	} catch (error) {
 		res.status(404).json({
@@ -15,7 +17,7 @@ const retrieveAllUses = async (req, res) => {
 		});
 	}
 };
-
+//retieve the number of users
 const userCount = async (req, res) => {
 	try {
 		const signups = await signup.find().exec();
@@ -31,7 +33,7 @@ const userCount = async (req, res) => {
 		});
 	}
 };
-
+//retireve a single user
 const retireveSingleUser = async (req, res) => {
 	try {
 		const signs = await signup.findOne({ _id: req.params.id });
@@ -47,14 +49,23 @@ const retireveSingleUser = async (req, res) => {
 		});
 	}
 };
-
+//add a user
 const createUser = async (req, res) => {
 	try {
+		const { firstName, lastName, email, password } = req.body;
+		const hashPass = await bcrypt.hash(password, 10);
 		const signups = new signup({
-			firstName: req.body.firstName,
-			lastName: req.body.lastName,
-			email: req.body.email,
+			firstName,
+			lastName,
+			email,
+			password: hashPass,
 		});
+		const userRegistered = await signup.findOne({ email: signups.email });
+		if (userRegistered) {
+			res
+				.status(400)
+				.json({ status: "User not created", message: "user already exists" });
+		}
 		const user = await signups.save();
 		res
 			.status(200)
@@ -66,7 +77,7 @@ const createUser = async (req, res) => {
 		});
 	}
 };
-
+// update users information
 const updateUser = async (req, res) => {
 	try {
 		const user = await signup.findOne({ _id: req.params.id });
@@ -92,7 +103,7 @@ const updateUser = async (req, res) => {
 		});
 	}
 };
-
+// delete a user
 const deleteUser = async (req, res) => {
 	try {
 		const signups = await signup.deleteOne({ _id: req.params.id });

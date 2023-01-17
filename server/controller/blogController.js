@@ -1,5 +1,6 @@
 import { Article } from "../models/blogmodules.js";
 
+//post a blog
 const createArticle = async (req, res) => {
 	try {
 		const blog = new Article({
@@ -17,20 +18,20 @@ const createArticle = async (req, res) => {
 		res.status(404).json({ status: "error", message: "blog not posted" });
 	}
 };
-
+//retrieve all articles
 const retrieveAllArticles = async (req, res) => {
 	try {
-		const blog = await Article.find();
+		const blog = await Article.find().exec();
 		res.status(200).json({
 			status: "success",
 			message: "blogs retrieved successfully",
-			data: { blog: blog },
+			data: { blogCount: blog.length, blog: blog },
 		});
 	} catch (error) {
 		res.status(404).json({ status: "error", message: "blogs not found" });
 	}
 };
-
+//counting all the saved articles
 const articleCount = async (req, res) => {
 	try {
 		const blogs = await Article.find().exec();
@@ -43,7 +44,7 @@ const articleCount = async (req, res) => {
 		res.status(404).json({ status: "error", message: "blogs not found" });
 	}
 };
-
+//retieve a single blog
 const retrieveSingleArticle = async (req, res) => {
 	try {
 		const blog = await Article.findOne({ _id: req.body.id });
@@ -56,7 +57,7 @@ const retrieveSingleArticle = async (req, res) => {
 		res.status(404).json({ status: "error", message: "blog not found" });
 	}
 };
-
+//update a single blog
 const updateSingleArticle = async (req, res) => {
 	try {
 		const blog = await Article.findOne({ _id: req.params.id });
@@ -82,7 +83,7 @@ const updateSingleArticle = async (req, res) => {
 			.json({ status: "error", message: "failed to update the blog" });
 	}
 };
-
+//delete a blog
 const deleteSingleArticle = async (req, res) => {
 	try {
 		const blog = await Article.deleteOne({ _id: req.params.id });
@@ -95,7 +96,7 @@ const deleteSingleArticle = async (req, res) => {
 		res.status(404).json({ status: "error", message: "blog not deleted" });
 	}
 };
-
+//create a comment
 const createComment = async (req, res) => {
 	try {
 		const { name, email, comment } = req.body;
