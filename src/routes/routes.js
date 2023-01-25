@@ -5,7 +5,7 @@ import signupRouter from './apis/signupRoutes.js';
 import { LogIn } from './apis/LogInRouter.js';
 import articleRouter from './apis/blogRouter.js';
 import swaggerUi from 'swagger-ui-express';
-import specs from '../utils/swagger.js';
+import specs from '../helper/swagger.js';
 
 const router = express.Router();
 
@@ -14,5 +14,6 @@ router.use('/contactMessages', messagerouter);
 router.use('/signups', signupRouter);
 router.use('/Admin', AdminRouter);
 router.use('/login', LogIn);
+router.use('/capston/doc', swaggerUi.serve, swaggerUi.setup(specs));
 
 export default router;

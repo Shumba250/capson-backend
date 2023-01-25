@@ -1,5 +1,5 @@
-import { Article } from '../models/blogmodules.js';
-import cloudinary from '../utils/cloudinary.js';
+import { Article, Comment } from '../models/blogmodules.js';
+import cloudinary from '../helper/cloudinary.js';
 
 //post a blog
 const createArticle = async (req, res) => {
