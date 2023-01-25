@@ -21,9 +21,9 @@ const option = {
     },
   },
   apis: [
-    './server/routes/apis/*.js',
-    './server/routes/routes.js',
-    './server/models/*.js',
+    './src/routes/apis/*.js',
+    './src/routes/routes.js',
+    './src/models/*.js',
   ],
 };
 

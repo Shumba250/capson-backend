@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import router from './server/routes/routes';
+import router from './src/routes/routes';
 import passport from 'passport';
 import cors from 'cors';
 

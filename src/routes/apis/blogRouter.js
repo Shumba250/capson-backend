@@ -112,9 +112,6 @@ articleRouter.get('/:id', authorized, adminAccess, retrieveSingleArticle);
  *           multipart/form-data:
  *             schema:
  *               $ref: '#/components/schemas/CreateBlog'
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/CreateBlogJson'
  *     responses:
  *       200:
  *         description: Success
