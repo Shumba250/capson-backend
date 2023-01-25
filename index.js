@@ -1,30 +1,33 @@
-import dotenv from "dotenv";
-import express from "express";
-import mongoose from "mongoose";
-import router from "./server/routes/router.js";
-import messagerouter from "./server/routes/contactMessageRoutes.js";
+import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
+import router from './server/routes/routes';
+import passport from 'passport';
+import cors from 'cors';
+
+import morgan from 'morgan';
 
 const app = express();
 dotenv.config();
+const PORT = process.env.PORT || 5000;
 
-mongoose.set("strictQuery", true);
+mongoose.set('strictQuery', true);
 mongoose
-	.connect(process.env.DB, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() => {
-		app.listen(3000, () => {
-			console.log("server connected successfully at port 3000");
-			console.log("bd connected successfully");
-		});
-	})
-	.catch((error) => console.log(error));
+  .connect(process.env.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`server connected at port ${PORT}`);
+      console.log('bd connected successfully');
+    });
+  })
+  .catch((error) => console.log(error));
 app.use(express.json());
+app.use(morgan('dev'));
+app.use(cors());
+app.use(passport.initialize());
+app.use('/', router);
 
-app.use("/blogs", router);
-app.use("/contactMessages", messagerouter);
-
-app.all("*", (req, res) => {
-	res.status(404).json({ message: "page not found" });
-});
+export default app;

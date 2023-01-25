@@ -1,23 +1,22 @@
-import express from "express";
-const messagerouter = express.Router();
 import contactMessages from "../models/contactMessageModule.js";
 
-messagerouter.get("/", async (req, res) => {
+//retrieve all messages
+const retrieveAllMessages = async (req, res) => {
 	try {
-		const messages = await contactMessages.find();
+		const messages = await contactMessages.find().exec();
 		res.status(200).json({
 			status: "success",
 			message: "all messages retireved",
-			data: { messages: messages },
+			data: { messageCount: messages.length, messages: messages },
 		});
 	} catch (error) {
 		res
 			.status(404)
 			.json({ status: "error", message: "failed to retrieve messages" });
 	}
-});
-
-messagerouter.get("/messageCount", async (req, res) => {
+};
+//retireve the number of comments
+const messageCount = async (req, res) => {
 	try {
 		const messages = await contactMessages.find().exec();
 		res.status(200).json({
@@ -28,9 +27,9 @@ messagerouter.get("/messageCount", async (req, res) => {
 	} catch (error) {
 		res.status(404).json({ status: "error", message: "invalid resource path" });
 	}
-});
-
-messagerouter.get("/:id", async (req, res) => {
+};
+//retrieve a single message
+const retrieveSingleMessage = async (req, res) => {
 	try {
 		const messages = await contactMessages.findOne({ _id: req.params.id });
 		res.status(200).json({
@@ -41,9 +40,9 @@ messagerouter.get("/:id", async (req, res) => {
 	} catch (error) {
 		res.status(404).json({ status: "error", message: "message not found" });
 	}
-});
-
-messagerouter.post("/", async (req, res) => {
+};
+//add a message
+const createMessage = async (req, res) => {
 	try {
 		const message = new contactMessages({
 			name: req.body.name,
@@ -60,9 +59,9 @@ messagerouter.post("/", async (req, res) => {
 	} catch (error) {
 		res.status(404).json({ status: "error", message: "message not sent" });
 	}
-});
-
-messagerouter.delete("/:id", async (req, res) => {
+};
+//delete a message
+const deleteMessage = async (req, res) => {
 	try {
 		const messages = await contactMessages.deleteOne({ _id: req.params.id });
 		res.status(200).json({
@@ -73,6 +72,12 @@ messagerouter.delete("/:id", async (req, res) => {
 	} catch (error) {
 		res.status(404).json({ status: "error", message: "message not deleted" });
 	}
-});
+};
 
-export default messagerouter;
+export {
+	createMessage,
+	retrieveAllMessages,
+	retrieveSingleMessage,
+	messageCount,
+	deleteMessage,
+};
