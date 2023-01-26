@@ -1,1 +1,14 @@
-# capson-backend
+![MY CAPSTON BACKEND PROJECT](https://img.shields.io/badge/code--coverage-61.87%25-yellow)
+####MY CAPSTON BACKEND PROJECT
+this project is about the backend application to build RESTful api's as well as the testing
+
+####Getting Started
+to test the api's manually you need to clone the repo and type npm install in your terminal, then to start the server
+type in npm run start and you can do the manual testing by using postman or visit this [backend documentation](https://capston-backend.onrender.com/capston/doc)
+
+####Prerequisites
+install
+-postman
+-node.js
+####Authors
+Mudakikwa aimable - Student at ATLP - fullstack junior software enginner
