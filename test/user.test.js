@@ -1,6 +1,6 @@
-import signup from '../server/models/signupModule.js';
-import contactMessages from '../server/models/contactMessageModule';
-import { Article } from '../server/models/blogmodules.js';
+import signup from '../src/models/signupModule.js';
+import contactMessages from '../src/models/contactMessageModule';
+import { Article } from '../src/models/blogmodules.js';
 import chai, { expect } from 'chai';
 import request from 'supertest';
 import app from '../index.js';
