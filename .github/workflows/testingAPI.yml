@@ -1,34 +1,33 @@
-name: Node.js CI
-
-on:
+name: testing
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: 
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+    branches:
+      - main
+  pull_request: 
+    branches:
+      - main
+    
 jobs:
   build:
-
-    runs-on: windows-latest
-
+    runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        node-version: [16.17.1]
-
+        os: [ubuntu-latest]
+        node-version: [16.17.x]
+    env: 
+      DB : ${{secrets.DB }}
+      cloud_name: ${{secrets.cloud_name}}
+      api_key: ${{secrets.api_key}}
+      api_secret: ${{secrets.api_secret}}
+      jwtStrng: ${{secrets.jwtStrng}}
+      PORT: ${{secrets.PORT}}
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v1
+      - name: 'Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}'
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm run build --if-present
-      - run: npx istanbul cover node_modules/mocha/bin/_mocha -- -R spec test/**/*.test.js
-      - run: npx codecov --file=coverage/lcov.info --disable=search
-      - run: npx istanbul report --include coverage/coverage-final.json
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.0
-        with:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: coverage/lcov-report
+      - run: npm test
+      - run: npm run coverage
