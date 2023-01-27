@@ -75,35 +75,6 @@ messagerouter.get('/', authorized, adminAccess, retrieveAllMessages);
 
 messagerouter.get('/:id', authorized, adminAccess, retrieveSingleMessage);
 
-/**
- *  @openapi
- * /contactMessages/messageCount:
- *   get:
- *     tags:
- *       - Contact Messages
- *     summary: Count the number of all messages
- *     security:
- *       - token: []
- *     responses:
- *       200:
- *         description: MessageCount
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                  MessageCount:
- *                      type: number
- *                      default: 0
- *       401:
- *         description: Should authorized( logged in)
- *       403:
- *         description: Should have an admin access to get a single message
- *       500:
- *         description: Server error
- */
-
-messagerouter.get('/messageCount', authorized, adminAccess, messageCount);
 
 /**
  * @openapi

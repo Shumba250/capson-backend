@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 const updateBlogValidation = Joi.object({
-  title: Joi.string(),
-  description: Joi.string(),
-  image: Joi.string(),
+  title: Joi.string().optional(),
+  description: Joi.string().optional(),
+  image: Joi.string().optional(),
 }).min(1);
 
 export default updateBlogValidation;
