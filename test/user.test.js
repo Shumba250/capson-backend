@@ -47,13 +47,15 @@ describe('test the user endpoints', async () => {
     chai.expect(result).to.have.status(200);
   });
 });
-it('error in creating a user', async () => {
+it('error in creating a user', async (done) => {
   const result = await request(app).post('/signups').send({
     firstName: 'mudakikwa',
+    lastName: '',
     email: 'mudakikwaaimable05@gmail.com',
     password: 'bob',
   });
   chai.expect(result).to.have.status(400);
+  done();
 });
 
 it('retrieving all users', async () => {
