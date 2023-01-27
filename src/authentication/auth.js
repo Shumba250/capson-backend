@@ -33,7 +33,7 @@ passport.use(
 	new JwtStrategy(
 		{
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			secretOrKey: process.env.jwtStrng,
+			secretOrKey: "ckchdsucdckdjcscndkcdj",
 		},
 		async (jwtPayload, done) => {
 			const user = await signup.findById(jwtPayload.id);
