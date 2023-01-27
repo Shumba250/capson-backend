@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 mongoose.set('strictQuery', true);
 mongoose
-  .connect(process.env.DBB, {
+  .connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
