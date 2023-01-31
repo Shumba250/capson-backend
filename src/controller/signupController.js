@@ -43,7 +43,7 @@ const retireveSingleUser = async (req, res) => {
       data: { user: signs },
     });
   } catch (error) {
-    res.status(404).json({
+    res.status(500).json({
       status: 'error',
       message: 'failed to retrieve user information',
     });

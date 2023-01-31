@@ -6,7 +6,7 @@ import {
   retrieveAllUses,
   updateUser,
   userCount,
-} from '../../controller/signupController.js';
+} from '../../controller/signupController';
 import { createSignupValidation } from '../../middleWares/signupValidation.js';
 import adminAccess from '../../middleWares/adminAccess.js';
 import { authorized } from '../../middleWares/authentication.js';
@@ -71,6 +71,7 @@ signupRouter.get('/', authorized, adminAccess, retrieveAllUses);
 
 signupRouter.get('/signupCount', authorized, adminAccess, userCount);
 
+
 /**
  *  @openapi
  * //signups/{id}:
@@ -104,7 +105,7 @@ signupRouter.get('/signupCount', authorized, adminAccess, userCount);
  *         description: Server error
  */
 
-signupRouter.get('/:id', authorized, adminAccess, retireveSingleUser);
+signupRouter.get('/:id', retireveSingleUser);
 
 /**
  * @openapi

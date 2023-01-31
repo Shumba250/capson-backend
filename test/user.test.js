@@ -1,9 +1,9 @@
-import signup from '../src/models/signupModule.js';
-import contactMessages from '../src/models/contactMessageModule';
-import { Article } from '../src/models/blogmodules.js';
+import signup from './src/models/signupModule.js';
+import contactMessages from './src/models/contactMessageModule';
+import { Article } from './src/models/blogmodules.js';
 import chai, { expect } from 'chai';
 import request from 'supertest';
-import app from '../app.js';
+import app from './src/app.js';
 import chaiHttp from 'chai-http';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
@@ -147,7 +147,7 @@ it('retrieves the number of users', async () => {
   const userCount = await request(app)
     .get('/signups/signupCount')
     .set('Authorization', `Bearer ${newtoken}`);
-    chai.expect(userCount).to.have.status(200)
+  chai.expect(userCount).to.have.status(200);
 });
 
 it('should delete single user', async () => {

@@ -105,10 +105,9 @@ const deleteSingleArticle = async (req, res) => {
 //create a comment
 const createComment = async (req, res) => {
   try {
-    const { name, email, comment } = req.body;
+    const { comment } = req.body;
     const comments = new Comment({
-      name,
-      email,
+      userId: req.user._id,
       comment,
     });
     const commentSave = await comments.save();

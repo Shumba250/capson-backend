@@ -73,8 +73,7 @@ AdminRouter.get('/', authorized, adminAccess, retrieveAllAdmins);
 AdminRouter.post(
   '/',
   createLoginValidation,
-  authorized,
-  adminAccess,
+  
   createAdmin
 );
 

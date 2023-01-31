@@ -39,7 +39,7 @@ const articleRouter = express.Router();
  *         description: Internal error
  */
 
-articleRouter.get('/', authorized, adminAccess, retrieveAllArticles);
+articleRouter.get('/', retrieveAllArticles);
 
 /**
  * @openapi
@@ -96,7 +96,7 @@ articleRouter.get('/blogCount', authorized, adminAccess, articleCount);
  *         description: Internal error
  */
 
-articleRouter.get('/:id', authorized, adminAccess, retrieveSingleArticle);
+articleRouter.get('/:id', retrieveSingleArticle);
 
 /**
  * @openapi
