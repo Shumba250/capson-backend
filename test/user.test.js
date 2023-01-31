@@ -1,9 +1,9 @@
 import signup from '../src/models/signupModule';
-import contactMessages from './src/models/contactMessageModule';
-import { Article } from './src/models/blogmodules.js';
+import contactMessages from '../src/models/contactMessageModule';
+import { Article } from '../src/models/blogmodules.js';
 import chai, { expect } from 'chai';
 import request from 'supertest';
-import app from './src/app.js';
+import app from '../src/app';
 import chaiHttp from 'chai-http';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
