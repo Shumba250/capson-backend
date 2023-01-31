@@ -1,4 +1,4 @@
-import signup from './src/models/signupModule.js';
+import signup from '../src/models/signupModule.js';
 import contactMessages from './src/models/contactMessageModule';
 import { Article } from './src/models/blogmodules.js';
 import chai, { expect } from 'chai';
