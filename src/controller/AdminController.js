@@ -15,6 +15,9 @@ const retrieveAllAdmins = async (req, res) => {
 			.json({ status: "error", message: "failed to retrieve list of admins" });
 	}
 };
+const admins = async (req, res) => {
+	res.status(200).json("Is an admin");
+  };
 
 const createAdmin = async (req, res) => {
 	try {
@@ -60,4 +63,4 @@ const removeAdmin = async (req, res) => {
 	}
 };
 
-export { createAdmin, retrieveAllAdmins, removeAdmin };
+export { createAdmin, retrieveAllAdmins, removeAdmin, admins };

@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const commentSchemaValidation = Joi.object({
-	comment: Joi.string().min(25).required(),
+	comment: Joi.string().min(10).required(),
 });
 
 export { commentSchemaValidation };
