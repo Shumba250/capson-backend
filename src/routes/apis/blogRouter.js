@@ -7,6 +7,7 @@ import {
   retrieveAllArticles,
   retrieveSingleArticle,
   updateSingleArticle,
+  likes,
 } from '../../controller/blogController.js';
 import { createBlogValidations } from '../../middleWares/blogValidation.js';
 import { createCommentValidation } from '../../middleWares/commentValidation.js';
@@ -14,6 +15,7 @@ import adminAccess from '../../middleWares/adminAccess.js';
 import upload from '../../helper/uploadFile.js';
 import { authorized } from '../../middleWares/authentication.js';
 import updateBlogValidations from '../../middleWares/updateBlogValidation.js';
+import userAccess from '../../middleWares/userAccess.js';
 
 const articleRouter = express.Router();
 
@@ -270,5 +272,7 @@ articleRouter.post(
   createCommentValidation,
   createComment
 );
+
+articleRouter.put('/:id/likes', authorized, userAccess, likes);
 
 export default articleRouter;

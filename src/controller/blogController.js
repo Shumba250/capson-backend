@@ -120,6 +120,18 @@ const createComment = async (req, res) => {
   }
 };
 
+const likes = async (req, res) => {
+  try {
+    const UserLike = await Article.findById(req.params.id);
+    if (!UserLike) errorMessage(res, 404, 'Article not found');
+    UserLike.likes += 1;
+    await UserLike.save();
+    return successMessage(res, 200, 'liked');
+  } catch (error) {
+    return errorMessage(res, 500, 'server error');
+  }
+};
+
 export {
   createArticle,
   retrieveSingleArticle,
@@ -128,4 +140,5 @@ export {
   deleteSingleArticle,
   createComment,
   articleCount,
+  likes,
 };
