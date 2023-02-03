@@ -1,5 +1,6 @@
 import { Article, Comment } from '../models/blogmodules.js';
 import cloudinary from '../helper/cloudinary.js';
+import Likes from '../models/likesModel.js';
 
 //post a blog
 const createArticle = async (req, res) => {
@@ -120,15 +121,43 @@ const createComment = async (req, res) => {
   }
 };
 
-const likes = async (req, res) => {
+const likess = async (req, res) => {
   try {
     const UserLike = await Article.findById(req.params.id);
     if (!UserLike) errorMessage(res, 404, 'Article not found');
-    UserLike.likes += 1;
-    await UserLike.save();
-    return successMessage(res, 200, 'liked');
+    const liked = await Likes.findOne({
+      userId: req.user._id,
+      articleId: req.params.id,
+    });
+    if (liked) {
+      await Likes.deleteOne({ _id: liked._id });
+      const updateBlog = await Article.findOneAndUpdate({
+        _id: req.params.id,
+        $pull: { likes: liked._id },
+      });
+      return res.status(200).json({
+        message: 'successfully unliked',
+        likes: updateBlog.likes.length,
+      });
+    } else {
+      const like = new Likes({
+        userId: req.user._id,
+        articleId: req.params.id,
+      });
+      await like.save();
+      const updateBlog = await Article.findOneAndUpdate({
+        _id: req.params.id,
+        $push: { likes: like._id },
+      });
+      return res
+        .status(200)
+        .json({
+          message: 'successfully liked',
+          likes: updateBlog.likes.length,
+        });
+    }
   } catch (error) {
-    return errorMessage(res, 500, 'server error');
+    return res.status(500).json({ message: 'server error' });
   }
 };
 
@@ -140,5 +169,5 @@ export {
   deleteSingleArticle,
   createComment,
   articleCount,
-  likes,
+  likess,
 };

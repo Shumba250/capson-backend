@@ -7,7 +7,7 @@ import {
   retrieveAllArticles,
   retrieveSingleArticle,
   updateSingleArticle,
-  likes,
+  likess,
 } from '../../controller/blogController.js';
 import { createBlogValidations } from '../../middleWares/blogValidation.js';
 import { createCommentValidation } from '../../middleWares/commentValidation.js';
@@ -273,6 +273,6 @@ articleRouter.post(
   createComment
 );
 
-articleRouter.put('/:id/likes', authorized, userAccess, likes);
+articleRouter.put('/:id/likes', authorized, likess);
 
 export default articleRouter;
