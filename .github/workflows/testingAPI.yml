@@ -16,7 +16,7 @@ jobs:
         os: [ubuntu-latest]
         node-version: [16.17.x]
     env: 
-      DB : ${{secrets.testDB }}
+      testDB : ${{secrets.testDB }}
       cloud_name: ${{secrets.cloud_name}}
       api_key: ${{secrets.api_key}}
       api_secret: ${{secrets.api_secret}}

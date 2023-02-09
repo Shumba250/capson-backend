@@ -12,4 +12,5 @@ install
 Authors
 Mudakikwa aimable - Student at ATLP - fullstack junior software enginner
 
-![MY CAPSTON BACKEND PROJECT](https://img.shields.io/badge/code--coverage-60%25-yellow)
+![example workflow](https://github.com/Shumba250/capston-backend/actions/workflows/testingAPI.yml/badge.svg)
+![MY CAPSTON BACKEND PROJECT](https://img.shields.io/badge/code--coverage-78%25-green)
