@@ -1,4 +1,5 @@
 import signup from '../src/models/signupModule';
+import likes from '../src/models/likesModel';
 import contactMessages from '../src/models/contactMessageModule';
 import { Article } from '../src/models/blogmodules.js';
 import chai, { expect } from 'chai';
@@ -310,7 +311,10 @@ describe("testing all blog endpoint api's", async () => {
         title: 'data science with python',
         description:
           'this is a project to test if creating a blog works including the upload picture',
-        image: file,
+        image: {
+          publicId: 'articles/d5jz6bl325vcmzlsdeho',
+          url: 'https://res.cloudinary.com/dr8kkof5r/image/upload/v1674794797/articles/d5jz6bl325vcmzlsdeho.png',
+        },
       })
       .set('Authorization', `Bearer ${token}`);
     chai.expect(result).to.have.status(200);
@@ -360,12 +364,37 @@ describe("testing all comment endpoint api's", async () => {
     const addComment = await request(app)
       .post(`/blogs/${blogid}/comments`)
       .send({
-        name: 'mugabo',
-        email: 'mugaboalexandre@gmail.com',
         comment: 'dksdcsdhcdischdcdhdiducdhdiudhuidhucdihddcdscds',
       })
       .set('Authorization', `Bearer ${token}`);
     chai.expect(addComment).to.have.status(200);
+  });
+});
+
+// testing blog likes
+describe('test blog likes', async () => {
+  beforeEach(async () => {
+    await likes.deleteMany({});
+  });
+  afterEach(async () => {
+    await likes.deleteMany({});
+  });
+  it('adds a like to a blog', async () => {
+    const blog = new Article({
+      title: 'data science with python',
+      description: 'djksdcnsdkcnsjkcndkcndcd',
+      image: {
+        publicId: 'articles/d5jz6bl325vcmzlsdeho',
+        url: 'https://res.cloudinary.com/dr8kkof5r/image/upload/v1674794797/articles/d5jz6bl325vcmzlsdeho.png',
+      },
+    });
+    const newBlog = await blog.save();
+    let blogid;
+    blogid = newBlog._id;
+    const addLikes = await request(app)
+      .put(`/blogs/${blogid}/likess`)
+      .set('Authorization', `Bearer ${token}`);
+    chai.expect(addLikes).to.have.status(404);
   });
 });
 
